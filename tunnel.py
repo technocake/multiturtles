@@ -14,8 +14,8 @@ transmitter.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
 
 def gi_beskjed(hvem, hva, hvor):
     msg = "%s,%s,%s,%s\n"%(hvem ,hva ,hvor[0],hvor[1])
-    #buffer = bytes(msg)
-    transmitter.sendto(msg, (MCAST_GRP, MCAST_PORT))
+    buffer = bytes(msg, encoding='utf-8')
+    transmitter.sendto(buffer, (MCAST_GRP, MCAST_PORT))
     print(hvem,hva,hvor)
 
 
@@ -34,7 +34,7 @@ def lytt():
     print('Listening thread started with turtle target', targetturtle)
     while True:
         buffer = sock.recv(10240)
-        amsg = str(buffer).rstrip()
+        amsg = str(buffer, encoding='utf-8').rstrip()
         liste = amsg.split(',')
         if len(liste) == 4:
             hvem = liste[0]
